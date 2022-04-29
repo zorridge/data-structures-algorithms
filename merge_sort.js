@@ -28,7 +28,7 @@ const merge = (arr, low, mid, high) => {
             arr[k] = copy[j++]; // Right pointer +1
         }
 
-        // If right num more than left num
+        // If right num more than left num OR equal (hence values in the left subarray are always prioritised => stable sort)
         else {
             arr[k] = copy[i++]; // Left pointer +1
         }
