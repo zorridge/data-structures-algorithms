@@ -57,7 +57,7 @@ const swim = (arr, i) => {
  * @returns Largest item i.e. item at root
  */
 const remove = (arr, last) => {
-    let temp = arr[0];
+    // let temp = arr[0];
     swap(arr, 0, last--);
     sink(arr, 0, last);
     // return temp;
@@ -82,11 +82,14 @@ const sink = (arr, i, last) => {
 };
 
 const heapsort = arr => {
+    // First array pass, build the input array into a heap
     let last = arr.length - 1;
-    for (let l = Math.floor((last - 1) / 2); l >= 0; l--) {
-        sink(arr, l, last);
+    for (let parent = Math.floor((last - 1) / 2); parent >= 0; parent--) {
+        sink(arr, parent, last);
     }
 
+    // Second array pass, remove largest (root) item until array is sorted i.e. last === root
+    // https://youtu.be/LbB357_RwlY
     while (last > 0) {
         swap(arr, 0, last--);
         sink(arr, 0, last);
@@ -101,7 +104,7 @@ const test = () => {
             Math.floor(Math.random() * length)
         );
 
-        console.log(arr); // Remove
+        // console.log(arr); // Remove
         heapsort(arr);
 
         if (!isSorted(arr)) {
