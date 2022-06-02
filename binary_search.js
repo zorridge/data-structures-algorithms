@@ -15,7 +15,8 @@ const binarySearch = (x, arr) => {
     // Left and right can end up at the same index
     while (left <= right) {
         // Find mid
-        let mid = Math.floor((left + right) / 2);
+        // Avoid (left + right) / 2 as left + right might cause overflow
+        let mid = Math.floor(left + (right - left) / 2);
 
         // If target is to the left of mid
         if (x < arr[mid]) {

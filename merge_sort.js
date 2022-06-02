@@ -1,6 +1,6 @@
 const isSorted = require('./utils/isSorted');
 
-const length = 100;
+const length = 10000;
 const arr = Array.from({ length }, () => Math.floor(Math.random() * length));
 
 const merge = (arr, low, mid, high) => {
@@ -40,7 +40,7 @@ const sort = (arr, low, high) => {
     if (high <= low) return;
 
     // Find middle of array
-    let mid = Math.floor((low + high) / 2);
+    let mid = Math.floor(low + (high - low) / 2);
 
     // Recursively mergesort left half
     sort(arr, low, mid);
