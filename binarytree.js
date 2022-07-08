@@ -8,7 +8,7 @@ class Node {
     }
 }
 
-const buildBinaryTree = arr => {
+const buildBinaryTreeLevelOrder = arr => {
     if (arr.length === 0) return null;
 
     const root = new Node(arr[0]);
@@ -91,14 +91,122 @@ const levelOrderIterative = function (root) {
     return ans.flat();
 };
 
+const preOrderRecursive = function (root) {
+    let ans = [];
+
+    const helper = function (node) {
+        if (!node) return;
+
+        ans.push(node.val);
+        helper(node.left);
+        helper(node.right);
+    };
+
+    helper(root);
+    return ans;
+};
+
+const preOrderIterative = function (root) {
+    let ans = [],
+        stack = [];
+
+    stack.push(root);
+
+    while (stack.length !== 0) {
+        let node = stack.pop();
+
+        if (node) {
+            ans.push(node.val);
+            stack.push(node.right);
+            stack.push(node.left);
+        }
+    }
+
+    return ans;
+};
+
+const inOrderRecursive = function (root) {
+    let ans = [];
+
+    const helper = function (node) {
+        if (!node) return;
+
+        helper(node.left);
+        ans.push(node.val);
+        helper(node.right);
+    };
+
+    helper(root);
+    return ans;
+};
+
+const inOrderIterative = function (root) {
+    let ans = [],
+        stack = [];
+
+    while (root || stack.length > 0) {
+        while (root) {
+            stack.push(root);
+            root = root.left;
+        }
+
+        root = stack.pop();
+        ans.push(root.val);
+        root = root.right;
+    }
+
+    return ans;
+};
+
+const postOrderRecursive = function (root) {
+    let ans = [];
+
+    const helper = function (node) {
+        if (!node) return;
+
+        helper(node.left);
+        helper(node.right);
+        ans.push(node.val);
+    };
+
+    helper(root);
+    return ans;
+};
+
+const postOrderIterative = function (root) {
+    let ans = [],
+        stack = [];
+
+    stack.push(root);
+
+    while (stack.length !== 0) {
+        let node = stack.pop();
+
+        if (node) {
+            ans.unshift(node.val);
+            stack.push(node.left);
+            stack.push(node.right);
+        }
+    }
+
+    return ans;
+};
+
 // TESTING
 let arr = [-10, 9, 20, null, null, 15, 7];
-arr = [3, 9, 20, null, null, 15, 7];
-arr = [1];
-arr = [];
-arr = [1, 2, 3];
+arr = [1, 2, 3, null, null, 4, 5];
+// arr = [3, 9, 20, null, null, 15, 7];
+// arr = [1];
+// arr = [];
+// arr = [1, 2, 3];
 
-const tree = buildBinaryTree(arr);
+const tree = buildBinaryTreeLevelOrder(arr);
 // console.log(tree);
 console.log(levelOrderRecursive(tree));
 console.log(levelOrderIterative(tree));
+console.log(preOrderRecursive(tree));
+console.log(preOrderIterative(tree));
+console.log(inOrderRecursive(tree));
+console.log(inOrderIterative(tree));
+console.log(postOrderRecursive(tree));
+console.log(postOrderIterative(tree));
