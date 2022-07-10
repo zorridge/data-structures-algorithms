@@ -21,7 +21,7 @@
  */
 
 class PriorityQueue {
-    constructor(comparator = (a, b) => a > b) {
+    constructor(comparator = (a, b) => a < b) {
         this.heap = [null]; // Stores items at indices 1 to n
         this.n = 0; // Number of items on priority queue
         this.comparator = comparator; // Optional comparator function
@@ -122,7 +122,7 @@ class PriorityQueue {
      * @return {Boolean} true if heap[i] less than heap[j]
      */
     less(i, j) {
-        return this.comparator(this.heap[j], this.heap[i]);
+        return this.comparator(this.heap[i], this.heap[j]);
     }
 
     /**
