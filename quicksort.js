@@ -1,67 +1,70 @@
 const isSorted = require('./utils/isSorted');
 
+const swap = (arr, i, j) => {
+  const swapItem = arr[i];
+  arr[i] = arr[j];
+  arr[j] = swapItem;
+};
+
 const partition = (arr, lo, hi) => {
-    let temp,
-        i = lo,
-        j = hi;
+  let i = lo,
+    j = hi + 1,
+    v = arr[lo];
 
-    // Note use of >= and <=, as stopping on duplicate keys will result in infinite loop e.g. [1, 1, 1]
-    while (true) {
-        // Find next item larger than partitioning item
-        while (arr[i] <= arr[lo] && i < hi) i++;
-
-        // Find next item smaller than partitioning item
-        while (arr[j] >= arr[lo] && j > lo) j--;
-
-        // Stop if i and j cross
-        if (i >= j) break;
-
-        // Swap larger item to right of partitioning item, smaller item to left of partitioning item
-        temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+  while (true) {
+    // find next item greater than or equal to partitioning item
+    while (arr[++i] < v) {
+      if (i === hi) break;
     }
 
-    // Swap partitioning item and arr[j]
-    temp = arr[lo];
-    arr[lo] = arr[j];
-    arr[j] = temp;
+    // find next item less than or equal to partitioning item
+    while (v < arr[--j]) {
+      if (j === lo) break; // redundant since arr[lo] acts as sentinel
+    }
 
-    // Return index of sorted item
-    return j;
+    // check if pointers cross
+    if (i >= j) break;
+
+    // swap greater item to right of partitioning item, less item to left of partitioning item
+    swap(arr, i, j);
+  }
+
+  // swap partitioning item and arr[j]
+  swap(arr, lo, j);
+
+  // return index of sorted item
+  return j;
 };
 
 const quicksort = (arr, lo, hi) => {
-    // Stop if less than 2 items
-    if (hi <= lo) return;
+  // stop if less than 2 items
+  if (hi <= lo) return;
 
-    // Sort lo
-    let j = partition(arr, lo, hi);
+  // sort lo
+  let j = partition(arr, lo, hi);
 
-    // Sort left of lo
-    quicksort(arr, lo, j - 1);
+  // sort left of lo
+  quicksort(arr, lo, j - 1);
 
-    // Sort right of lo
-    quicksort(arr, j + 1, hi);
+  // sort right of lo
+  quicksort(arr, j + 1, hi);
 };
 
 // Testing
-const length = 5; // Change this
+const length = 5; // change this
 const test = () => {
-    for (let i = 0; i < 1000; i++) {
-        let arr = Array.from({ length }, () =>
-            Math.floor(Math.random() * length)
-        );
+  for (let i = 0; i < 1000; i++) {
+    let arr = Array.from({ length }, () => Math.floor(Math.random() * length));
 
-        console.log(arr); // Remove
-        quicksort(arr, 0, arr.length - 1);
+    console.log(arr);
+    quicksort(arr, 0, arr.length - 1);
 
-        if (!isSorted(arr)) {
-            return false;
-        }
+    if (!isSorted(arr)) {
+      return false;
     }
+  }
 
-    return true;
+  return true;
 };
 
 console.log(test());
